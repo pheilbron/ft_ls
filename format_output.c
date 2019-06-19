@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:50:36 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/06/06 15:50:38 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/06/18 17:56:04 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		fill_in(char *s, int max_word_len, size_t word_len)
 	return (i);
 }
 
-void	print_col(t_vector	**tab, int len, int max_word, int row_len)
+void	print_col(t_vector **tab, int len, int max_word, int row_len)
 {
 	char	*ret;
 	int		i;
