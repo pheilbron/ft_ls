@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:51:11 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/06/06 15:51:15 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/08/08 13:49:15 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	parse_input(char *options, t_options *ops)
 		if (*options == '-')
 		{
 			options++;
-			while (*options && set_option(*options))
+			while (*options && set_option(ops, *options))
 				options++;
 			if (*options && (*options != ' ' || *(options - 1) == '-'))
 				is_valid = 0;
