@@ -1,34 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_ls_options.h                                    :+:      :+:    :+:   */
+/*   usage.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/06 15:52:06 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/08/08 13:47:24 by pheilbro         ###   ########.fr       */
+/*   Created: 2019/09/09 18:26:52 by pheilbro          #+#    #+#             */
+/*   Updated: 2019/09/09 19:35:13 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_LS_OPTIONS_H
-# define FT_LS_OPTIONS_H
+#include "ft_ls.h"
+#include "ft_ls_options.h"
 
-# define LONG 1
-# define REV 2
-# define REC 4
-# define TIME 8
-# define ALL 15
-
-typedef struct	s_options
+static char	*get_options(void)
 {
-	uint8_t	flags;
-	char	**files;
-}				t_options;
+	t_dstring	*s;
+	int			i;
 
-typedef struct	s_set_op
+	s = ft_dstr_init();
+	i = 0;
+	while (g_options_tab[i].type)
+		ft_dstr_add(s, &g_options_tab[i++].type, 1);
+	return (ft_dstr_release(s));
+}
+
+void		print_usage(void)
 {
-	char	type;
-	void	(*f)();
-}				t_set_op;
-
-#endif
+	char	*options;
+	ft_printf("usage: ls [-%s] [file ...]", options = get_options());
+	free(options);
+}

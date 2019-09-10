@@ -1,38 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_options.c                                      :+:      :+:    :+:   */
+/*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/06/06 15:51:22 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/06/06 15:51:29 by pheilbro         ###   ########.fr       */
+/*   Created: 2019/06/06 15:51:40 by pheilbro          #+#    #+#             */
+/*   Updated: 2019/09/09 19:44:33 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_ls_options.h"
+#ifndef FT_LS
+# define FT_LS
 
-int	set_long_form_option(t_options *ops)
-{
-	return (ops->long_form = 1);
-}
+# include "ft_ls_options.h"
+# include "ft_vector.h"
 
-int	set_rev_option(t_options *ops)
+typedef struct	s_ls_file
 {
-	return (ops->rev = 1);
-}
+	struct stat	*entry;
+	t_error		e;
+}				t_ls_file;
 
-int	set_rec_option(t_options *ops)
+typedef struct	s_ls_dir
 {
-	return (ops->rec = 1);
-}
+	struct dirent	*entry;
+	t_error			e;
+}				t_ls_dir;
 
-int	set_all_option(t_options *ops)
+typedef struct	s_ls_context
 {
-	return (ops->all = 1);
-}
+	uint16_t	flag;
+	t_rbtree	*dirs;
+	t_rbtree	*files;
+	t_error		e;
+}				t_ls_context;
 
-int	set_by_time_option(t_options *ops)
-{
-	return (ops->by_time = 1);
-}
+int	parse_input(t_ls_context *c, char **data, int len);
+
+#endif
