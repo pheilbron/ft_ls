@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:51:11 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/09 19:39:58 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/10 13:43:56 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ static int	set_ls_long_option(t_ls_context *c, char *option)
 	{
 		if (ft_strcmp(g_options_tab[i].long_version, option) == 0)
 		{
-			c->flag &=
-				(~g_options_tab[i].mask & g_options_tab[i].flag);
+			c->flag &= (~g_options_tab[i].mask & g_options_tab[i].flag);
 			return (c->e.no = 1);
 		}
 		i++;
