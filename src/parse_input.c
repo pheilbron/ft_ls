@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:51:11 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/24 11:44:43 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/24 11:56:40 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
  * -1 single-column	-- single column output
  * -C vertical		-- list entries in columns sorted vertically
  * -G grid			-- gird format
+ * -g no-owner		-- long listing w/out owner information
+ * -o no-group		-- long listing w/out group information
  * -l verbose		-- long listing
  * -m commas		-- separate by commas
  * -x horizontal	-- list entries in columns sorted horizontally
@@ -48,11 +50,9 @@
  * -T long-time		-- show complete time information
  * -a all			-- don't ignore entries starting with .
  * -d list-dir		-- list directory entries instead of contents
- * -g no-owner		-- long listing w/out owner information
  * -h 				-- print sizes in human readable form, ie 1K 234M 2G etc.
  * -i inode			-- print file inode numbers
  * -n numeric-id	-- print numberic uid, gid
- * -o no-group		-- long listing w/out group information
  * -s block-size	-- display size of each file in blocks
  * -@ extended		-- display extended attributes
  *
@@ -79,10 +79,10 @@ t_btree_node	*g_option_tree = NODE('f', _F, FILTER, "", "",
 				NODE('c', _C, SORT, "change-time", "sort=",
 					END('a', _A, FILTER, "all", "filter="),
 					END('d', _D, 0, "list-dir", "filter=")))),
-		NODE('o', _O, FILTER, "no-group", "filter=",
+		NODE('o', _O, FORMAT, "no-group", "format=",
 			NODE('i', _I, FILTER, "inode", "filter=",
 				NODE('h', _H, FILTER, "", "",
-					END('g', _G, FILTER, "no-owner", "filter="),
+					END('g', _G, FORMAT, "no-owner", "format="),
 					NULL),
 				NODE('m', _M, FORMAT, "commas", "format=",
 					END('l', _L, FORMAT, "long", "format="),
@@ -112,13 +112,13 @@ t_ls_option	g_options_tab[] =
 	{'c', _C, SORT, "change-time", "sort="},
 	{'d', _D, 0, "list-dir", "filter="},
 	{'f', _F, FILTER, "", ""},
-	{'g', _G, FILTER, "no-owner", "filter="},
+	{'g', _G, FORMAT, "no-owner", "format="},
 	{'h', _H, FILTER, "", ""},
 	{'i', _I, FILTER, "inode", "filter="},
 	{'l', _L, FORMAT, "long", "format="},
 	{'m', _M, FORMAT, "commas", "format="},
 	{'n', _N, FILTER, "numeric-id", "filter="},
-	{'o', _O, FILTER, "no-group", "filter="},
+	{'o', _O, FORMAT, "no-group", "format="},
 	{'q', _C, FORMAT, "color", "format="},
 	{'r', _R, SORT, "reverse", "sort="},
 	{'s', _S, FILTER, "block-size", "filter="},

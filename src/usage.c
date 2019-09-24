@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 18:26:52 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/23 20:57:19 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/24 11:54:01 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ static void	print_help_aux(void)
 			"(-short-option, --format=LONG-OPTION, or --LONG-OPTION)\n"
 			" -C vertical		-- list entries in columns sorted vertically\n"
 			" -G grid		-- gird format\n"
+			" -g no-owner		-- long listing w/out owner information\n"
 			" -l verbose		-- long listing\n"
 			" -m commas		-- separate by commas\n"
+			" -o no-group		-- long listing w/out group information\n"
 			" -q color		-- print with colors\n"
 			" -x horizontal		-- list entries in columns sorted "
 			"horizontally\n"
@@ -55,7 +57,6 @@ static void	print_help_aux(void)
 
 void		print_help(void)
 {
-	print_usage();
 	print_help_aux();
 	ft_printf("FILTER\t"
 			"(-short-option, --filter=LONG-OPTION, or --LONG-OPTION)\n"
@@ -63,12 +64,10 @@ void		print_help(void)
 			" -a all			-- don't ignore entries starting with .\n"
 			" -d list-dir		-- list directory entries instead of contents\n"
 			" -F 			-- append file type indicators\n"
-			" -g no-owner		-- long listing w/out owner information\n"
 			" -h 			-- print sizes in human readable form, "
 			"ie 1K 234M 2G etc.\n"
 			" -i inode		-- print file inode numbers\n"
 			" -n numeric-id		-- print numberic uid, gid\n"
-			" -o no-group		-- long listing w/out group information\n"
 			" -s block-size		-- display size of each file in blocks\n"
 			" -T long-time		-- show complete time information\n"
 			" -@ extended		-- display extended attributes\n\n");
