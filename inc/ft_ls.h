@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:51:40 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/09 19:44:33 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/23 15:48:52 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 
 typedef struct	s_ls_file
 {
+	char	
 	struct stat	*entry;
 	t_error		e;
 }				t_ls_file;
@@ -30,9 +31,9 @@ typedef struct	s_ls_dir
 
 typedef struct	s_ls_context
 {
-	uint16_t	flag;
-	t_rbtree	*dirs;
-	t_rbtree	*files;
+	uint16_t		flag;
+	t_hash_table	*dirs;
+	t_hash_table	*files;
 	t_error		e;
 }				t_ls_context;
 
