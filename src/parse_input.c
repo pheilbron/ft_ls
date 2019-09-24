@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:51:11 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/23 20:46:49 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/24 11:44:43 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
  * -m commas		-- separate by commas
  * -x horizontal	-- list entries in columns sorted horizontally
  * -q color			-- print with colors
- * precedence: ((go)/l/1/m C/x) : 3 bits
+ * precedence: (l/1/m C/x) : 3 bits
  * go > l
  * m > C/x
  * otherwise one a pop
@@ -146,6 +146,8 @@ static int	set_ls_option_btree(t_ls_context *c, char *option, uint8_t type)
 	t_ls_option 	*op;
 
 	i = g_options_tree;
+	if (*option == 'H' || ft_strcmp(option, "help") == 0)
+		return (c->e.no = HELP);
 	while (i)
 	{
 		op = (t_ls_option *)(i->content);
