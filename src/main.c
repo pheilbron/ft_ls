@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 19:44:41 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/25 14:06:06 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/25 15:08:43 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void				free_ls_context(t_ls_context *c)
 {
 	free(c->files);
 	ft_dstr_free(printer);
-	ft_dstr_free(path);
+	ft_dstr_free((t_dstring *)path);
 	free(c);
 }
 
