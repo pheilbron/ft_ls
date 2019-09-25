@@ -6,30 +6,37 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 18:26:52 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/24 11:54:01 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/25 12:08:41 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include "ft_ls.h"
 #include "ft_ls_options.h"
+#include "ft_printf.h"
+#include "ft_btree.h"
+#include "ft_dstring.h"
 
-static char	*get_options(void)
+static void	get_options(t_btree_node *options, t_dstring *s)
 {
-	t_dstring	*s;
-	int			i;
-
-	s = ft_dstr_init();
-	i = 0;
-	while (g_options_tab[i].type)
-		ft_dstr_add(s, &g_options_tab[i++].type, 1);
-	return (ft_dstr_release(s));
+	if (options)
+	{
+		if (options->left)
+			get_options(options->left);
+		ft_dstr_add(s, &(((t_ls_option)(options->content)).type), 1);
+		if (options->right)
+			get_options(options->right);
+	}
 }
 
 void		print_usage(void)
 {
-	char	*options;
-	ft_printf("usage: ls [-%s] [file ...]", options = get_options());
-	free(options);
+	t_dstring	*s;
+
+	s = ft_dstr_init();
+	get_options(g_options_tree, s);
+	ft_printf("usage: ls [-%s] [file ...]", s->buf);
+	ft_dstr_free(s);
 }
 
 static void	print_help_aux(void)

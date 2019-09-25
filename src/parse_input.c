@@ -6,16 +6,19 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:51:11 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/24 11:56:40 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/25 11:59:00 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <dirent.h>
+#include <stdlib.h>
+#include <fcntl.h>
 #include "ft_ls.h"
 #include "ft_ls_options.h"
+#include "ft_ls_utils.h"
+#include "ft_btree.h"
+#include "ft_rbtree.h"
+#include "ft_string.h"
+#include "ft_error.h"
 
 /* FORMAT:
  * --format=WORD or --WORD
@@ -151,29 +154,30 @@ static int	parse_ls_options(t_ls_context *c, char **data, int len, int *i)
 	return (c->e.no = 1);
 }
 
-static int	parse_ls_file(t_ls_context *c, char **data, int i)
+static int	parse_ls_input_file(t_ls_context *c, char **data, int i)
 {
-	void	*file;
-	DIR		*dir_stream;
-	int		fd;
+	t_ls_file	*file;
+	t_ls_dir	*dir;
+	int			fd;
 
-	if ((dir_stream = opendir(data[i])))
+	if ((fd = open(data[i], O_DIRECTORY)) >= 0)
 	{
-		if (!(file = malloc(sizeof(t_ls_dir *))))
+		if (!(dir = malloc(sizeof(*dir))))
 			return (c->e.no = SYS_ERROR);
-		((t_ls_dir *)file)->entry = readdir(dir_stream);
-		closedir(dir_stream);
-		((t_ls_dir *)file)->e.no = 1;
-		ft_rbtree_add(c->dirs, file, get_sorter(c->flags));
-		return ((t_ls_dir *)file->e.no < 0 ? 0 : 1);
+		set_ls_dir_data(&dir, data[i], "");
+		dir->e.no = 1;
+		ft_rbtree_insert(c->dirs, ft_rbtree_new_node(dir));
 	}
-	if (!(file = malloc(sizeof(t_ls_file *))))
+	if (!(file = malloc(sizeof(*file))))
 		return (c->e.no = SYS_ERROR);
-	if ((*get_file_stat(c->flags))(data[i], ((t_ls_file *)file)->entry) == -1)
-		ft_error_new(&(((t_ls_file *)file).e), INV_FILE, data[i]);
+	if ((fd = open(data[i], O_RDONLY)) > 0)
+	{
+		set_ls_file_data(c->flag, &file, data[i], "");
+		file->e.no = 1;
+	}
 	else
-		((t_ls_file *)file)->e.no = 1;
-	ft_rbtree_add(c->files, file, get_sorter(c->flags));
+		ft_error_new(&(file->e), INV_FILE, data[i]);
+	ft_rbtree_insert(c->files, ft_rbtree_new_node(file));
 	return (((t_ls_file *)file)->e.no < 0 ? 0 : 1);
 }
 
@@ -184,10 +188,14 @@ int			parse_input(t_ls_context *c, char **data, int len)
 	i = 0;
 	ft_ls_error_init(&(c->e));
 	if (len == 0 && parse_ls_file(c, ".") < 0)
+		return (print_fatal_error(*c));
 	else if (parse_ls_options(c, data, len, &i) < 0)
 		return (print_fatal_error(*c));
 	else
-		while (i < len && parse_ls_file(c, data, i) != SYS_ERROR)
+	{
+		c->compare = (*get_sort(void *, void *))(c->flag);
+		while (i < len && parse_ls_input_file(c, data, i) != SYS_ERROR)
 			i++;
+	}
 	return (c->e.no < 0 ? 0 : 1);
 }
