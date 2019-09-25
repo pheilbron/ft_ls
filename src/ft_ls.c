@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 20:10:08 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/17 20:57:04 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/24 17:00:54 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@ void	ft_ls(t_rbtree *files, t_rbtree *dirs, uint16_t flag)
 	t_dstring	*s;
 
 	s = ft_dstr_init();
+	if (!IS_SORT(flag))
+		(*set_sort(flag))(
 	while (!ft_rbtree_is_empty(files))
 		(*set_print(flag))(s, ft_rbtree_get_least(files));
 	free(files);

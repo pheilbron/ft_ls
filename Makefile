@@ -1,33 +1,46 @@
 NAME		=	ft_ls
 
-SRC			=	parse_input.c
-TEST		=	test_parse.c
-
-SRC_OBJ		=	$(SRC:.c, .o)
-TEST_OBJ	=	$(TEST:.c, .o)
-
 CC			=	gcc
+LIB			= -L../libft -lft
+INC_FLAGS	= -I inc -I ../libft/inc
 FLAGS		=	-Wall -Werror -Wextra
 DEBUG_FLAGS	=	-fsanitize=address
-INC			=	-I . -I libft/includes/
-LIB			=	-Llibft/ -lft
 
+SRC_DIR		= src
+OBJ_DIR		= obj
 
-all: obj
-	$(CC) $(FLAGS) $(INC) -o $(NAME) $(SRC_OBJ) $(TEST_OBJ)
+SRC			= parse_input usage main
+OBJ			= $(patsubst %, $(OBJ_DIR)/%.o)
 
-obj:
-	$(CC) $(FLAGS) $(INC) -c $(SRC) $(TEST)
+all: $(NAME)
 
-test_format:
-	make -C libft/
-	$(CC) $(FLAGS) $(DEBUG_FLAGS) -g $(INC) $(LIB) format_output.c test_format.c
-	
-clean:
-	rm -f $(SRC_OBJ)
-	rm -f $(TEST_OBJ)
+$(NAME): $(OBJ) ../libft/libft.a
+	@$(CC) $(CFLAGS) $(LIB) -o $@ $^
 
-fclean: clean
+../libft/libft.a:
+	@make -sC libft
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c 
+	@echo Compiling $<.
+	@mkdir -p $(dir $@)
+	@$(CC) $(CFLAGS) $(INC_FLAGS) -c $< -o $@
+
+debug: 
+	$(CC) $(FLAGS) $(DEBUG_FLAGS) $(INC_FLAGS) src/*.c \
+		src/*/*.c src/*/*/*.c \
+		../libft/src/*/*.c ../libft/src/stdio/ft_printf/*.c \
+		../libft/src/stdio/ft_printf/*/*.c
+
+clean: clean_debug
+	#make clean -C lib/
+	rm -rf $(OBJ_DIR)
+
+clean_debug:
+	rm -f debug 
+	rm -rf debug.dSYM 
+
+fclean: clean clean_debug
+	#make fclean -C lib/
 	rm -f $(NAME)
 
-re:	fclean all
+re: fclean all
