@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 19:44:41 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/25 12:16:12 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/25 12:26:35 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int					main(int ac, char **av)
 	else if (parse_input(c, av + 1, ac - 1))
 		ft_ls(c->files, c->dirs, c->printer, c->options);
 	else
-		ft_error_print_fatal_error(c->e);
+		ft_error_print_std_message("ft_ls", c->e);
 	free_ls_context(c);
 	return (0);
 }

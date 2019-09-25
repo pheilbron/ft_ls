@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:51:11 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/25 11:59:00 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/25 12:25:35 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,9 +188,9 @@ int			parse_input(t_ls_context *c, char **data, int len)
 	i = 0;
 	ft_ls_error_init(&(c->e));
 	if (len == 0 && parse_ls_file(c, ".") < 0)
-		return (print_fatal_error(*c));
+		return (ft_error_print_std_message("ft_ls", c->e));
 	else if (parse_ls_options(c, data, len, &i) < 0)
-		return (print_fatal_error(*c));
+		return (ft_error_print_std_message("ft_ls", c->e));
 	else
 	{
 		c->compare = (*get_sort(void *, void *))(c->flag);
