@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:51:11 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/25 12:25:35 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/25 14:04:02 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,17 +157,16 @@ static int	parse_ls_options(t_ls_context *c, char **data, int len, int *i)
 static int	parse_ls_input_file(t_ls_context *c, char **data, int i)
 {
 	t_ls_file	*file;
-	t_ls_dir	*dir;
 	int			fd;
 
-	if ((fd = open(data[i], O_DIRECTORY)) >= 0)
-	{
-		if (!(dir = malloc(sizeof(*dir))))
-			return (c->e.no = SYS_ERROR);
-		set_ls_dir_data(&dir, data[i], "");
-		dir->e.no = 1;
-		ft_rbtree_insert(c->dirs, ft_rbtree_new_node(dir));
-	}
+//	if ((fd = open(data[i], O_DIRECTORY)) >= 0)
+//	{
+//		if (!(dir = malloc(sizeof(*dir))))
+//			return (c->e.no = SYS_ERROR);
+//		set_ls_dir_data(&dir, data[i], "");
+//		dir->e.no = 1;
+//		ft_rbtree_insert(c->dirs, ft_rbtree_new_node(dir));
+//	}
 	if (!(file = malloc(sizeof(*file))))
 		return (c->e.no = SYS_ERROR);
 	if ((fd = open(data[i], O_RDONLY)) > 0)

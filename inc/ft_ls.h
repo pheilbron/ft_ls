@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:51:40 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/25 12:15:01 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/25 14:01:12 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ typedef struct	s_ls_context
 	uint16_t	flag;
 	int			(*compare)();
 	t_rbtree	*files;
-	t_rbtree	*dirs;
-	char		*home_dir;
+	t_dstring	*path;
 	t_dstring	*printer;
 	t_error		e;
 }				t_ls_context;

@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 09:35:19 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/25 11:58:30 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/25 14:30:47 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,20 +122,11 @@ int			set_ls_dir_data(t_ls_dir **d, char *name, char *dir_prefix)
 int			parse_ls_file(char *name, char *dir_prefix, uint16_t flag)
 {
 	t_ls_file	*file;
-	t_ls_dir	*dir;
 	char		*path;
 	int			fd;
 
 	if (!(path = ft_strjoin(dir_prefix, name)))
 		return (SYS_ERROR);
-	if ((fd = open(path, O_DIRECTORY)) >= 0)
-	{
-		if (!(dir = malloc(sizeof(*dir))))
-			return (SYS_ERROR);
-		set_ls_dir_data(&dir, name, dir_prefix);
-		dir->e.no = 1;
-		ft_rbtree_insert(c->dirs, ft_rbtree_new_node(dir));
-	}
 	if (!(file = malloc(sizeof(*file))))
 		return (SYS_ERROR);
 	if ((fd = open(path, O_RDONLY)) > 0)
