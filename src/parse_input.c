@@ -95,39 +95,6 @@ t_btree_node	*g_option_tree = NODE('f', _F, FILTER, "", "",
 					END('t', _T, SORT, "modify-time", "sort="),
 					END('x', _X, FORMAT, "horizontal", "format=")))));
 
-t_ls_option	g_options_tab[] =
-{
-	{'1', _1, FORMAT, "single-column", "format="},
-	{'@', _@, FILTER, "extended", "filter="},
-	{'A', _CAP_A, FILTER, "", ""},
-	{'G', _CAP_G, FORMAT, "grid", "format="},
-	{'C', _CAP_C, FORMAT, "vertical", "format="},
-	{'F', _CAP_F, FILTER, "", ""},
-	{'N', _CAP_N, SORT, "name", "sort="},
-	{'R', _CAP_R, 0, "recurse", ""},
-	{'S', _CAP_S, SORT, "size", "sort="},
-	{'T', _CAP_T, FILTER, "long-time", "filter="},
-	{'Y', _CAP_Y, 0, "tree", ""},
-	{'a', _A, FILTER, "all", "filter="},
-	{'c', _C, SORT, "change-time", "sort="},
-	{'d', _D, 0, "list-dir", "filter="},
-	{'f', _F, FILTER, "", ""},
-	{'g', _G, FORMAT, "no-owner", "format="},
-	{'h', _H, FILTER, "", ""},
-	{'i', _I, FILTER, "inode", "filter="},
-	{'l', _L, FORMAT, "long", "format="},
-	{'m', _M, FORMAT, "commas", "format="},
-	{'n', _N, FILTER, "numeric-id", "filter="},
-	{'o', _O, FORMAT, "no-group", "format="},
-	{'q', _C, FORMAT, "color", "format="},
-	{'r', _R, SORT, "reverse", "sort="},
-	{'s', _S, FILTER, "block-size", "filter="},
-	{'t', _T, SORT, "modify-time", "sort="},
-	{'u', _U, SORT, "access-time", "sort="},
-	{'x', _X, FORMAT, "horizontal", "format="},
-	{0, 0, 0}
-};
-
 static int	is_long_option(char *option, t_ls_option *op)
 {
 	if (!op->long_op)
@@ -164,42 +131,6 @@ static int	set_ls_option_btree(t_ls_context *c, char *option, uint8_t type)
 	}
 	c->e.data = option;
 	return (c->e.no = (type == SHORT_OP ? INV_OPTION : INV_LONG_OPTION));
-}
-
-static int	set_ls_option(t_ls_context *c, char option)
-{
-	int	i;
-
-	i = 0;
-	while (g_options_tab[i].type)
-	{
-		if (g_options_tab[i].type == option)
-		{
-			c->flag &= (~g_options_tab[i].mask & g_options_tab[i].flag);
-			return (c->e.no = 1);
-		}
-		i++;
-	}
-	c->e.data = &option;
-	return (c->e.no = INV_OPTION);
-}
-
-static int	set_ls_long_option(t_ls_context *c, char *option)
-{
-	int	i;
-
-	i = 0;
-	while (g_options_tab[i].type)
-	{
-		if (ft_strcmp(g_options_tab[i].long_version, option) == 0)
-		{
-			c->flag &= (~g_options_tab[i].mask & g_options_tab[i].flag);
-			return (c->e.no = 1);
-		}
-		i++;
-	}
-	c->e.data = option;
-	return (c->e.no = INV_OPTION);
 }
 
 static int	parse_ls_options(t_ls_context *c, char **data, int len, int *i)

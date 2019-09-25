@@ -9,7 +9,7 @@ DEBUG_FLAGS	=	-fsanitize=address
 SRC_DIR		= src
 OBJ_DIR		= obj
 
-SRC			= parse_input usage main
+SRC			= parse_input usage main ft_ls
 OBJ			= $(patsubst %, $(OBJ_DIR)/%.o)
 
 all: $(NAME)

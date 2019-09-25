@@ -14,12 +14,16 @@
 # define FT_LS
 
 # include "ft_ls_options.h"
-# include "ft_vector.h"
 
 typedef struct	s_ls_file
 {
-	char	
-	struct stat	*entry;
+	char	*permissions;
+	int		hard_links;
+	char	*group_id;
+	char	*user_id;
+	int		size;
+	struct tm	date;
+	char	*name;
 	t_error		e;
 }				t_ls_file;
 
