@@ -6,13 +6,13 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 11:39:16 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/25 11:48:28 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/25 19:03:35 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_ls_utils.h"
 
-int	(*get_sort(uint16_t flag))(void *, void *)
+int	(*get_sort(uint16_t flag))(t_ls_file *, t_ls_file *)
 {
 	const struct s_sort	sort_tab[] = {
 		{_CAP_S, &compare_size},
