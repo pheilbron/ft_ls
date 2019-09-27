@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 18:26:52 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/25 12:08:41 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/26 09:27:27 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static void	get_options(t_btree_node *options, t_dstring *s)
 	if (options)
 	{
 		if (options->left)
-			get_options(options->left);
+			get_options(options->left, s);
 		ft_dstr_add(s, &(((t_ls_option)(options->content)).type), 1);
 		if (options->right)
-			get_options(options->right);
+			get_options(options->right, s);
 	}
 }
 

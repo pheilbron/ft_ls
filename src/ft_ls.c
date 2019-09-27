@@ -6,80 +6,81 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 20:10:08 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/25 15:05:49 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/26 11:05:32 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <stdint.h>
 #include "ft_ls.h"
 #include "ft_ls_options.h"
+#include "ft_printf.h"
 #include "ft_dstring.h"
 #include "ft_rbtree.h"
+#include "ft_vector.h"
+#include "ft_string.h"
 
-void	file_tree_map_print(t_rb_node *files, t_rbtree *dirs,
-		t_dstring *printer, uint16_t flag)
-{
-	t_vector	*to_print;
-
-	if (files)
-	{
-		if (!(to_print = malloc(sizeof(*to_print))))
-			return ;
-		if (files->left)
-			file_tree_map_print(files->left, dirs, printer, flag);
-		if (((t_ls_file *)(files->content))->permissions[0] == 'd')
-		{
-			if (IS_SET(flag, _CAP_Y, RECURSE))
-			{
-				ft_printf("%s", ft_dstr_dump(printer));
-				dir_tree_map_parse(ft_rbtree_new_node(files->content),
-						path, printer, flag);
-			}
-			else
-				ft_rbtree_insert(dirs, ft_rbtree_new_node(files->content));
-		}
-		ft_vect_add((*get_print_string(flag))((t_ls_file *)(files->content)));
-		if (files->right)
-			file_tree_map_print(files->right, dirs, printer, flag);
-		if (!files->parent)
-			process_print_strings(s, to_print, flag);
-	}
-}
-
-void	dir_tree_map_parse(t_rb_node *dirs, t_dstring *path,
-		t_dstring *printer, uint16_t flag)
+static void	dir_tree_map_parse(t_ls_context *c, t_rb_node *dirs)
 {
 	t_rbtree	*sub_dir;
+	t_ls_file	*cur_dir;
 
 	if (dirs)
 	{
 		if (dirs->left)
-			dir_tree_map_parse(dirs, path, printer, flag);
-		ft_dstr_addf(printer, "%s/%s\n", path->buf, dirs->name);
-		if ((sub_dir = get_files((t_ls_file *)(dir->content))))
+			dir_tree_map_parse(c, dirs);
+		cur_dir = (t_ls_file *)(dirs->content);
+		ft_dstr_addf(c->printer, "%s/%s\n", c->path->path->buf, cur_dir->name);
+		if ((sub_dir = get_files(cur_dir)))
 		{
-			ft_dstr_add_path(path, dirs->name, ft_strlen(dirs->name));
-			ft_ls(sub_dir, path, printer, flag);
+			ft_path_add_dir(c->path, cur_dir->name, ft_strlen(cur_dir->name));
+			ft_ls(c, sub_dir);
 			ft_rbtree_free(sub_dir);
-			ft_dstr_remove_path(path, dirs->name, ft_strlen(dirs->name));
+			ft_path_remove_dir(c->path);
 		}
 		if (dirs->right)
-			dir_tree_map_parse(dirs, path, printer, flag);
+			dir_tree_map_parse(c, dirs);
 	}
 }
 
-void	ft_ls(t_rbtree *files, t_dstring *path,
-		t_dstring *printer, uint16_t flag)
+static void	file_tree_map_print(t_ls_context *c, t_rb_node *files,
+		t_rbtree *dirs)
+{
+	t_vector	*to_print;
+
+	if (!(to_print = malloc(sizeof(*to_print))))
+		return ;
+	if (files->left)
+		file_tree_map_print(c, files->left, dirs);
+	if (((t_ls_file *)(files->content))->permissions[0] == 'd')
+	{
+		if (IS_SET(c->flag, _CAP_Y, RECURSE))
+		{
+			ft_printf("%s", ft_dstr_dump(c->printer));
+			dir_tree_map_parse(c, ft_rbtree_new_node(files->content));
+		}
+		else
+			ft_rbtree_insert(dirs, ft_rbtree_new_node(files->content));
+	}
+	ft_vect_add(to_print,
+			get_print_string(c->flag, (t_ls_file *)(files->content)));
+	if (files->right)
+		file_tree_map_print(c, files->right, dirs);
+	if (!files->parent)
+		(*process_print_strings(c->flag))(c->printer, to_print);
+}
+
+void		ft_ls(t_ls_context *c, t_rbtree *files)
 {
 	t_rbtree	*dirs;
 
 	if (!(dirs = ft_rbtree_init()))
 		return ;
-	ft_dstr_addf(printer, "total %d\n", );
-	file_tree_map_print(files->root, dirs, printer, flag);
+	ft_dstr_addf(c->printer, "total %d\n", );
+	file_tree_map_print(c, files->root, dirs);
 	ft_rbtree_free(files);
-	ft_printf("%s", ft_dstr_dump(printer));
-	if (IS_SET(flag, _CAP_R) && dirs)
-		dir_tree_map_parse(dirs->root, printer, flag);
+	ft_printf("%s", ft_dstr_dump(c->printer));
+	if (IS_SET(c->flag, _CAP_R, RECURSE) && dirs)
+		dir_tree_map_parse(c, dirs->root);
 	ft_rbtree_free(dirs);
 }

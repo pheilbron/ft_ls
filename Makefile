@@ -1,16 +1,19 @@
-NAME		=	ft_ls
+NAME		= ft_ls
 
-CC			=	gcc
+CC			= gcc
 LIB			= -L../libft -lft
 INC_FLAGS	= -I inc -I ../libft/inc
-FLAGS		=	-Wall -Werror -Wextra
-DEBUG_FLAGS	=	-fsanitize=address
+FLAGS		= -Wall -Werror -Wextra
+DEBUG_FLAGS	= -fsanitize=address
 
 SRC_DIR		= src
 OBJ_DIR		= obj
 
 SRC			= main ft_ls parse_input parse_file usage
-OBJ			= $(patsubst %, $(OBJ_DIR)/%.o)
+			  #utils/utils \
+			  utils/compare_size \
+			  utils/compare_time
+OBJ			= $(patsubst %, $(OBJ_DIR)/%.o, $(SRC))
 
 all: $(NAME)
 

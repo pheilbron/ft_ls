@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:51:11 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/25 14:04:02 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/26 09:42:09 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,13 @@
  * -Y tree		-- list subdirectories recursively in tree format
 */
 
-#define NODE(a,b,c,d,e,l,r) &(t_btree_node){(t_ls_option){a,b,c,d,e}, l, r}
-#define END(a,b,c,d,e) &(t_btree_node){(t_ls_option){a,b,c,d,e}, NULL, NULL}
+#define NODE(a,b,c,d,e,l,r) &(t_btree_node){&(t_ls_option){a,b,c,d,e}, l, r}
+#define END(a,b,c,d,e) &(t_btree_node){&(t_ls_option){a,b,c,d,e}, NULL, NULL}
 
 t_btree_node	*g_option_tree = NODE('f', _F, FILTER, "", "",
 		NODE('R', _CAP_R, 0, "recurse", "",
 			NODE('C', _CAP_C, FORMAT, "vertical", "format=",
-				NODE('@', _@, FILTER, "extended", "filter=",
+				NODE('@', _AT, FILTER, "extended", "filter=",
 					END('1', _1, FORMAT, "single-column", "format="),
 					END('A', _CAP_A, FILTER, "", "")),
 				NODE('G', _CAP_G, FORMAT, "grid", "format=",
@@ -154,7 +154,7 @@ static int	parse_ls_options(t_ls_context *c, char **data, int len, int *i)
 	return (c->e.no = 1);
 }
 
-static int	parse_ls_input_file(t_ls_context *c, char **data, int i)
+static int	parse_ls_input_file(t_ls_context *c, t_rbtree *files, char **data, int i)
 {
 	t_ls_file	*file;
 	int			fd;
@@ -176,11 +176,11 @@ static int	parse_ls_input_file(t_ls_context *c, char **data, int i)
 	}
 	else
 		ft_error_new(&(file->e), INV_FILE, data[i]);
-	ft_rbtree_insert(c->files, ft_rbtree_new_node(file));
+	ft_rbtree_insert(files, ft_rbtree_new_node(file));
 	return (((t_ls_file *)file)->e.no < 0 ? 0 : 1);
 }
 
-int			parse_input(t_ls_context *c, char **data, int len)
+int			parse_input(t_ls_context *c, t_rbtree *files, char **data, int len)
 {
 	int	i;
 
@@ -193,7 +193,7 @@ int			parse_input(t_ls_context *c, char **data, int len)
 	else
 	{
 		c->compare = (*get_sort(void *, void *))(c->flag);
-		while (i < len && parse_ls_input_file(c, data, i) != SYS_ERROR)
+		while (i < len && parse_ls_input_file(c, files, data, i) != SYS_ERROR)
 			i++;
 	}
 	return (c->e.no < 0 ? 0 : 1);

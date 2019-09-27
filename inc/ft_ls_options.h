@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/06/06 15:52:06 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/24 11:53:25 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/26 09:36:19 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,23 @@
 # define SORT 0b111 << 8
 
 // FILTER: (
-# define _CAP_A
-# define _CAP_F
-# define _CAP_T
-# define _A
-# define _D
-# define _H
-# define _I
-# define _N
-# define _S
-# define _@
+# define _CAP_A 1UL << 13
+# define _CAP_F 1UL << 14
+# define _CAP_T 1UL << 15
+# define _A 1UL << 16
+# define _D 1UL << 17
+# define _H 1UL << 18
+# define _I 1UL << 19
+# define _N 1UL << 20
+# define _S 1UL << 21
+# define _AT 1UL << 22
 
-# define _CAP_R
-# define _CAP_Y
+# define _CAP_R 1UL << 23
+# define _CAP_Y 1UL << 24
+
+# define RECURSE 3UL << 23
+
+# define IS_SET(flag, op, mask) ((flag & mask) == op ? 1 : 0)
 
 typedef struct	s_option
 {

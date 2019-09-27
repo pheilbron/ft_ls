@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 09:35:19 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/25 14:30:47 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/09/26 09:42:30 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include "ft_ls.h"
 #include "ft_ls_options.h"
 #include "ft_rbtree.h"
@@ -50,7 +51,7 @@ static char	*set_permissions(struct stat file)
 	return (ret);
 }
 
-static char	*set_date(struct stat file, uint16_t flag)
+static char	*set_date(struct stat file, uint32_t flag)
 {
 	char	*ret;
 	int		i;
@@ -77,8 +78,8 @@ static char	*set_date(struct stat file, uint16_t flag)
 	return (ret);
 }
 
-int			set_ls_file_data(uint16_t flag,
-		t_ls_file **f, char *name, char *dir_prefix)
+int			set_ls_file_data(uint32_t flag, t_ls_file **f,
+		char *name, char *dir_prefix)
 {
 	struct stat	file;
 	char		*path;
@@ -103,23 +104,23 @@ int			set_ls_file_data(uint16_t flag,
 	return ((*d)->e.no);
 }
 
-int			set_ls_dir_data(t_ls_dir **d, char *name, char *dir_prefix)
-{
-	struct stat	dir;
-	char		*path;
+//int			set_ls_dir_data(t_ls_dir **d, char *name, char *dir_prefix)
+//{
+//	struct stat	dir;
+//	char		*path;
+//
+//	if ((path = ft_strjoin(dir_prefix, name)) && stat(path, &dir) == 0)
+//	{
+//		(*d)->name = dir_path;
+//		(*d)->block_size = dir.st_blocks;
+//		(*d)->e.no = 1;
+//	}
+//	else
+//		ft_error_new(&((*d)->e), SYS_ERROR, data[i]);
+//	return ((*d)->e.no);
+//}
 
-	if ((path = ft_strjoin(dir_prefix, name)) && stat(path, &dir) == 0)
-	{
-		(*d)->name = dir_path;
-		(*d)->block_size = dir.st_blocks;
-		(*d)->e.no = 1;
-	}
-	else
-		ft_error_new(&((*d)->e), SYS_ERROR, data[i]);
-	return ((*d)->e.no);
-}
-
-int			parse_ls_file(char *name, char *dir_prefix, uint16_t flag)
+int			parse_ls_file(char *name, char *dir_prefix, uint32_t flag)
 {
 	t_ls_file	*file;
 	char		*path;
