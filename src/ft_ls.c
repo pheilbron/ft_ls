@@ -6,7 +6,7 @@
 /*   By: pheilbro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/09 20:10:08 by pheilbro          #+#    #+#             */
-/*   Updated: 2019/09/26 11:05:32 by pheilbro         ###   ########.fr       */
+/*   Updated: 2019/10/03 14:30:36 by pheilbro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 #include "ft_rbtree.h"
 #include "ft_vector.h"
 #include "ft_string.h"
+
+static char	*get_print_string(uint32_t flag, t_ls_file *file)
+{
+
 
 static void	dir_tree_map_parse(t_ls_context *c, t_rb_node *dirs)
 {
